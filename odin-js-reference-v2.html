@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odin Project JS Reference — Darian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="light"]{
+  --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;
+  --color-surface-offset:#f3f0ec;--color-border:#d4d1ca;--color-divider:#dcd9d5;
+  --color-text:#28251d;--color-text-muted:#7a7974;--color-text-faint:#bab9b4;
+  --color-primary:#01696f;--color-primary-hover:#0c4e54;--color-primary-light:#cedcd8;
+  --color-success:#437a22;--color-warning:#964219;--color-error:#a12c7b;
+  --color-code-bg:#edeae5;--color-code-text:#28251d;
+  --shadow-sm:0 1px 3px rgba(40,37,29,.07);--shadow-md:0 4px 12px rgba(40,37,29,.09);
+  --radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;
+  --font-body:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+[data-theme="dark"]{
+  --color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;
+  --color-surface-offset:#1d1c1a;--color-border:#393836;--color-divider:#262523;
+  --color-text:#cdccca;--color-text-muted:#797876;--color-text-faint:#5a5957;
+  --color-primary:#4f98a3;--color-primary-hover:#227f8b;--color-primary-light:#313b3b;
+  --color-success:#6daa45;--color-warning:#bb653b;--color-error:#d163a7;
+  --color-code-bg:#252421;--color-code-text:#cdccca;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.22);--shadow-md:0 4px 12px rgba(0,0,0,.32);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);line-height:1.65;-webkit-font-smoothing:antialiased}
+.header{position:sticky;top:0;z-index:100;background:var(--color-surface);border-bottom:1px solid var(--color-border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;box-shadow:var(--shadow-sm)}
+.header-logo{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:1rem;color:var(--color-text);text-decoration:none}
+.logo-badge{background:var(--color-primary);color:#fff;font-size:.65rem;font-weight:700;padding:.2rem .45rem;border-radius:var(--radius-sm);letter-spacing:.04em;text-transform:uppercase}
+.header-controls{display:flex;align-items:center;gap:.75rem}
+.theme-toggle{background:none;border:1px solid var(--color-border);border-radius:var(--radius-md);padding:.35rem .55rem;cursor:pointer;color:var(--color-text-muted);display:flex;align-items:center;transition:all .2s}
+.theme-toggle:hover{border-color:var(--color-primary);color:var(--color-primary)}
+.download-btn{background:var(--color-primary);color:#fff;border:none;border-radius:var(--radius-md);padding:.45rem 1rem;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.4rem;transition:background .2s}
+.download-btn:hover{background:var(--color-primary-hover)}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 60px);max-width:1280px;margin:0 auto}
+@media(max-width:860px){.layout{grid-template-columns:1fr}.sidebar{display:none}}
+.sidebar{border-right:1px solid var(--color-border);background:var(--color-surface);padding:1.5rem 1rem;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+.sidebar-section{margin-bottom:1.5rem}
+.sidebar-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-faint);margin-bottom:.5rem;padding-left:.5rem}
+.sidebar a{display:block;padding:.35rem .5rem;border-radius:var(--radius-sm);font-size:.85rem;color:var(--color-text-muted);text-decoration:none;transition:all .15s}
+.sidebar a:hover{background:var(--color-surface-offset);color:var(--color-text)}
+.sidebar a.active{background:var(--color-primary-light);color:var(--color-primary);font-weight:600}
+.main{padding:2.5rem 3rem;max-width:900px}
+@media(max-width:640px){.main{padding:1.5rem 1.25rem}}
+.doc-section{margin-bottom:3.5rem}
+.section-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-primary);margin-bottom:.5rem}
+h1{font-size:2rem;font-weight:700;line-height:1.15;margin-bottom:.75rem;color:var(--color-text)}
+h2{font-size:1.35rem;font-weight:700;color:var(--color-text);margin-bottom:.75rem;margin-top:2.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--color-divider)}
+h3{font-size:1.05rem;font-weight:600;color:var(--color-text);margin-bottom:.6rem;margin-top:1.75rem}
+h4{font-size:.9rem;font-weight:600;color:var(--color-text);margin-bottom:.4rem;margin-top:1.25rem}
+p{color:var(--color-text-muted);margin-bottom:.85rem;max-width:70ch}
+.lead{font-size:1.05rem;color:var(--color-text-muted);line-height:1.7;margin-bottom:1.5rem;max-width:65ch}
+.divider{border:none;border-top:1px solid var(--color-divider);margin:2.5rem 0}
+pre{background:var(--color-code-bg);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;overflow-x:auto;margin:.75rem 0 1.25rem;font-size:.82rem;line-height:1.7}
+code{font-family:var(--font-mono);color:var(--color-code-text)}
+pre code .c{color:var(--color-text-faint);font-style:italic}
+p code,li code{font-family:var(--font-mono);background:var(--color-code-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:.1em .35em;font-size:.8em;color:var(--color-primary)}
+.table-wrap{overflow-x:auto;margin:.75rem 0 1.25rem;border-radius:var(--radius-lg);border:1px solid var(--color-border)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead{background:var(--color-surface-offset)}
+th{font-weight:600;text-align:left;padding:.65rem 1rem;color:var(--color-text);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--color-border)}
+td{padding:.65rem 1rem;border-bottom:1px solid var(--color-divider);color:var(--color-text-muted);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--color-surface-offset)}
+.callout{border-radius:var(--radius-lg);padding:1rem 1.25rem;margin:.75rem 0 1.25rem;display:flex;gap:.75rem;align-items:flex-start;font-size:.88rem;line-height:1.6}
+.callout-icon{flex-shrink:0;margin-top:.1rem}
+.callout.tip{background:var(--color-primary-light);border-left:3px solid var(--color-primary)}
+.callout.tip .callout-icon{color:var(--color-primary)}
+.callout.tip p{color:var(--color-text);margin:0}
+.callout.warning{background:color-mix(in srgb,var(--color-warning) 10%,var(--color-surface));border-left:3px solid var(--color-warning)}
+.callout.warning .callout-icon{color:var(--color-warning)}
+.callout.warning p{color:var(--color-text);margin:0}
+.callout.success{background:color-mix(in srgb,var(--color-success) 10%,var(--color-surface));border-left:3px solid var(--color-success)}
+.callout.success .callout-icon{color:var(--color-success)}
+.callout.success p{color:var(--color-text);margin:0}
+.badge{display:inline-block;font-size:.68rem;font-weight:700;padding:.15rem .45rem;border-radius:999px;text-transform:uppercase;letter-spacing:.05em;vertical-align:middle;margin-left:.35rem}
+.badge-green{background:color-mix(in srgb,var(--color-success) 15%,var(--color-bg));color:var(--color-success)}
+.badge-orange{background:color-mix(in srgb,var(--color-warning) 15%,var(--color-bg));color:var(--color-warning)}
+.badge-purple{background:color-mix(in srgb,var(--color-error) 15%,var(--color-bg));color:var(--color-error)}
+.lesson-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin:.75rem 0 1.25rem}
+.lesson-item{display:flex;align-items:center;gap:.75rem;padding:.7rem 1rem;border-radius:var(--radius-lg);border:1px solid var(--color-border);background:var(--color-surface);transition:box-shadow .2s}
+.lesson-item:hover{box-shadow:var(--shadow-sm)}
+.lesson-num{font-size:.7rem;font-weight:700;color:var(--color-text-faint);width:1.4rem;text-align:right;flex-shrink:0}
+.lesson-name{font-weight:600;font-size:.88rem;color:var(--color-text);flex:1}
+.lesson-sub{font-size:.78rem;color:var(--color-text-muted);margin-top:.1rem}
+.lesson-project{background:color-mix(in srgb,var(--color-primary) 8%,var(--color-surface));border-color:var(--color-primary-light)}
+.lesson-project .lesson-name{color:var(--color-primary)}
+.pattern-box{background:var(--color-code-bg);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin:.75rem 0 1.25rem}
+.pattern-box h4{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--color-primary);margin-bottom:.75rem}
+.progress-wrap{margin:1rem 0 1.5rem}
+.progress-label{display:flex;justify-content:space-between;font-size:.8rem;color:var(--color-text-muted);margin-bottom:.4rem}
+.progress-track{height:8px;background:var(--color-surface-offset);border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:var(--color-primary);border-radius:999px;width:93%}
+ol.steps{padding-left:1.25rem;color:var(--color-text-muted);font-size:.9rem;margin:.5rem 0 1rem}
+ol.steps li{margin-bottom:.4rem;padding-left:.25rem}
+ol.steps li code{font-size:.8em}
+ul.bullets{padding-left:1.25rem;color:var(--color-text-muted);font-size:.9rem;margin:.5rem 0 1rem}
+ul.bullets li{margin-bottom:.35rem}
+ul.bullets li code{font-size:.8em}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.75rem 0 1.25rem}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+.mini-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1rem}
+.mini-card-title{font-weight:700;font-size:.85rem;color:var(--color-text);margin-bottom:.4rem}
+.mini-card-desc{font-size:.8rem;color:var(--color-text-muted);line-height:1.5}
+.exercise-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin:.75rem 0 1.25rem}
+.exercise-item{display:flex;align-items:flex-start;gap:1rem;padding:.85rem 1rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg)}
+.exercise-num{font-family:var(--font-mono);font-size:.75rem;font-weight:700;color:var(--color-primary);background:var(--color-primary-light);border-radius:var(--radius-sm);padding:.2rem .45rem;flex-shrink:0;margin-top:.1rem}
+.exercise-name{font-weight:600;font-size:.88rem;color:var(--color-text)}
+.exercise-concept{font-size:.78rem;color:var(--color-text-muted);margin-top:.2rem}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="header-logo" href="#">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    <span>Odin JS Reference</span>
+    <span class="logo-badge">Foundations</span>
+  </a>
+  <div class="header-controls">
+    <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <button class="download-btn" id="dlBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download PDF
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Overview</div>
+      <a href="#progress">Your Progress</a>
+      <a href="#lessons">Lesson Map</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">JavaScript Core</div>
+      <a href="#variables">Variables &amp; Types</a>
+      <a href="#operators">Operators</a>
+      <a href="#conditionals">Conditionals</a>
+      <a href="#functions">Functions</a>
+      <a href="#scope">Scope</a>
+      <a href="#loops">Loops</a>
+      <a href="#accumulator">Accumulator Pattern</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Data Structures</div>
+      <a href="#strings">Strings</a>
+      <a href="#arrays">Arrays</a>
+      <a href="#array-methods">Array Methods</a>
+      <a href="#objects">Objects</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Modern JS</div>
+      <a href="#template-literals">Template Literals</a>
+      <a href="#destructuring">Destructuring</a>
+      <a href="#spread-rest">Spread &amp; Rest</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Browser &amp; Projects</div>
+      <a href="#dom">DOM Manipulation</a>
+      <a href="#events">Events In Depth</a>
+      <a href="#git">Git &amp; GitHub</a>
+      <a href="#errors">Errors &amp; Debugging</a>
+      <a href="#exercises">GitHub Exercises</a>
+      <a href="#mindset">Problem-Solving</a>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <!-- INTRO -->
+    <div class="doc-section" id="progress">
+      <div class="section-label">The Odin Project — Foundations</div>
+      <h1>JavaScript Reference Guide</h1>
+      <p class="lead">Everything you learned in Foundations — explained clearly, in depth, with working examples. Use this as a lookup when you're stuck, not something to memorize.</p>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Your Foundations progress</span><span>93%</span></div>
+        <div class="progress-track"><div class="progress-fill"></div></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+        <p>You do not need to memorize any of this. Real developers look things up constantly. The goal is knowing what exists so you know what to search for.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LESSON MAP -->
+    <div class="doc-section" id="lessons">
+      <h2>Lesson Map</h2>
+      <p>The full JavaScript section of Foundations, in order.</p>
+      <ul class="lesson-list">
+        <li class="lesson-item"><span class="lesson-num">1</span><div><div class="lesson-name">Variables &amp; Operators</div><div class="lesson-sub">let, const, var — arithmetic, comparison, logical operators</div></div></li>
+        <li class="lesson-item"><span class="lesson-num">2</span><div><div class="lesson-name">Data Types &amp; Conditionals</div><div class="lesson-sub">strings, numbers, booleans, null, undefined — if/else, switch, ternary</div></div></li>
+        <li class="lesson-item"><span class="lesson-num">3</span><div><div class="lesson-name">JS Developer Tools</div><div class="lesson-sub">Chrome DevTools console, debugging, console.log, reading errors</div></div></li>
+        <li class="lesson-item"><span class="lesson-num">4</span><div><div class="lesson-name">Function Basics</div><div class="lesson-sub">declarations, expressions, arrow functions, parameters, return values</div></div></li>
+        <li class="lesson-item"><span class="lesson-num">5</span><div><div class="lesson-name">Problem Solving</div><div class="lesson-sub">pseudocode, breaking problems into steps, understanding before coding</div></div></li>
+        <li class="lesson-item"><span class="lesson-num">6</span><div><div class="lesson-name">Understanding Errors</div><div class="lesson-sub">ReferenceError, TypeError, SyntaxError — reading stack traces</div></div></li>
+        <li class="lesson-item lesson-project"><span class="lesson-num">🏆</span><div><div class="lesson-name">Project: Rock Paper Scissors</div><div class="lesson-sub">First real project — functions, conditionals, DOM UI</div></div></li>
+        <li class="lesson-item"><span class="lesson-num">8</span><div><div class="lesson-name">Clean Code</div><div class="lesson-sub">naming conventions, readability, camelCase, when to comment</div></div></li>
+        <li class="lesson-item"><span class="lesson-num">9</span><div><div class="lesson-name">Loops &amp; Arrays</div><div class="lesson-sub">for, while, arrays, .map(), .filter(), .reduce(), TDD exercises</div></div></li>
+        <li class="lesson-item"><span class="lesson-num">10</span><div><div class="lesson-name">DOM Manipulation &amp; Events</div><div class="lesson-sub">querySelector, addEventListener, textContent, classList</div></div></li>
+        <li class="lesson-item lesson-project"><span class="lesson-num">🏆</span><div><div class="lesson-name">Project: Etch-a-Sketch</div><div class="lesson-sub">DOM, dynamic grid generation, mouse events, flexbox</div></div></li>
+        <li class="lesson-item"><span class="lesson-num">12</span><div><div class="lesson-name">Fundamentals Part 5</div><div class="lesson-sub">Objects, more array/string techniques, deeper JS concepts</div></div></li>
+        <li class="lesson-item lesson-project"><span class="lesson-num">🏆</span><div><div class="lesson-name">Project: Calculator</div><div class="lesson-sub">Final Foundations project — full DOM wiring, state management</div></div></li>
+      </ul>
+    </div>
+
+    <hr class="divider">
+
+    <!-- VARIABLES -->
+    <div class="doc-section" id="variables">
+      <h2>Variables &amp; Data Types</h2>
+      <p>A variable is a named container for a value. Think of it like a labelled box — you give it a name, put something inside, and can use or change that thing later by referring to the name.</p>
+
+      <h3>let vs const vs var</h3>
+      <p><code>let</code> creates a variable you can reassign. <code>const</code> creates a variable that cannot be reassigned. <code>var</code> is the old way — it has confusing scoping rules and is considered legacy. Never use it.</p>
+      <pre><code>let score = 0;          <span class="c">// can be changed later</span>
+score = 10;             <span class="c">// ✅ fine — we used let</span>
+
+const name = 'Darian';  <span class="c">// cannot be changed</span>
+<span class="c">// name = 'Bob';         // ❌ TypeError: Assignment to constant variable</span>
+
+<span class="c">// Rule: use const by default. Switch to let only when the value must change.</span>
+<span class="c">// Loop counters (i), accumulators (result), score trackers → let</span>
+<span class="c">// Everything else → const</span></code></pre>
+
+      <div class="callout warning">
+        <div class="callout-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <p><strong>const with objects and arrays:</strong> const prevents reassignment but NOT mutation. You can't replace the array entirely, but you CAN push items into it. This catches many beginners off guard.</p>
+      </div>
+      <pre><code>const arr = [1, 2, 3];
+arr.push(4);           <span class="c">// ✅ allowed — we're modifying, not replacing</span>
+<span class="c">// arr = [5, 6, 7];   // ❌ not allowed — that's reassignment</span></code></pre>
+
+      <h3>The 6 Primitive Data Types</h3>
+      <p>Every value in JavaScript is one of these types. Knowing the type of a value tells you what you can do with it.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Example</th><th>What it is</th></tr></thead>
+          <tbody>
+            <tr><td><code>String</code></td><td><code>'hello'</code>, <code>"world"</code></td><td>Text — always wrapped in quotes (single, double, or backtick)</td></tr>
+            <tr><td><code>Number</code></td><td><code>42</code>, <code>3.14</code>, <code>-7</code></td><td>Any number — JS has no separate int/float distinction</td></tr>
+            <tr><td><code>Boolean</code></td><td><code>true</code>, <code>false</code></td><td>Only two possible values — used for conditions</td></tr>
+            <tr><td><code>null</code></td><td><code>null</code></td><td>Intentional emptiness — YOU set this to say "nothing here"</td></tr>
+            <tr><td><code>undefined</code></td><td><code>undefined</code></td><td>Unintentional emptiness — declared but never assigned a value</td></tr>
+            <tr><td><code>Symbol</code></td><td><code>Symbol('id')</code></td><td>Unique identifier — rarely used at your level, ignore for now</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>typeof — Checking a Value's Type</h3>
+      <p>When you're confused about what type a value is, use <code>typeof</code> to check.</p>
+      <pre><code>typeof 'hello'     <span class="c">// 'string'</span>
+typeof 42          <span class="c">// 'number'</span>
+typeof true        <span class="c">// 'boolean'</span>
+typeof undefined   <span class="c">// 'undefined'</span>
+typeof null        <span class="c">// 'object'  ← famous JS bug, null is NOT an object</span>
+typeof [1,2,3]     <span class="c">// 'object'  ← arrays are also objects in JS</span>
+typeof function(){} <span class="c">// 'function'</span></code></pre>
+
+      <h3>Type Coercion — JavaScript's Most Confusing Behaviour</h3>
+      <p>JavaScript automatically converts types in certain situations. This causes bugs if you're not careful.</p>
+      <pre><code>'5' + 3     <span class="c">// '53'  — JS converts 3 to string and concatenates</span>
+'5' - 3     <span class="c">// 2     — JS converts '5' to number and subtracts</span>
+'5' * 2     <span class="c">// 10    — same, converts to number</span>
+true + 1    <span class="c">// 2     — true becomes 1</span>
+false + 1   <span class="c">// 1     — false becomes 0</span>
+
+<span class="c">// This is why you always use === not ==</span>
+5 == '5'    <span class="c">// true  — == does coercion, dangerous</span>
+5 === '5'   <span class="c">// false — === checks type AND value, safe</span></code></pre>
+
+      <h3>Naming Variables</h3>
+      <ul class="bullets">
+        <li>Always <strong>camelCase</strong>: <code>totalScore</code>, <code>isFinished</code>, <code>userName</code></li>
+        <li>Name what it <em>contains</em>, not what you do with it — <code>userAge</code> not <code>myVariable</code></li>
+        <li>Booleans should read like yes/no questions: <code>isWinner</code>, <code>hasError</code>, <code>canSubmit</code></li>
+        <li>Constants that never change anywhere use SCREAMING_SNAKE_CASE: <code>MAX_GRID_SIZE</code></li>
+      </ul>
+    </div>
+
+    <hr class="divider">
+
+    <!-- OPERATORS -->
+    <div class="doc-section" id="operators">
+      <h2>Operators</h2>
+
+      <h3>Arithmetic Operators</h3>
+      <pre><code>10 + 3   <span class="c">// 13 — addition</span>
+10 - 3   <span class="c">// 7  — subtraction</span>
+10 * 3   <span class="c">// 30 — multiplication</span>
+10 / 3   <span class="c">// 3.333... — division (always returns decimal if needed)</span>
+10 % 3   <span class="c">// 1  — modulo: remainder after division</span>
+10 ** 2  <span class="c">// 100 — exponentiation (10 to the power of 2)</span>
+
+<span class="c">// Shorthand versions (all do the same thing, just shorter)</span>
+x += 5   <span class="c">// same as x = x + 5</span>
+x -= 5   <span class="c">// same as x = x - 5</span>
+x *= 2   <span class="c">// same as x = x * 2</span>
+x++      <span class="c">// same as x = x + 1 (increment by 1)</span>
+x--      <span class="c">// same as x = x - 1 (decrement by 1)</span></code></pre>
+
+      <h3>Modulo % — The Most Important One</h3>
+      <p>Returns the remainder after division. You use this constantly — for checking if something is even/odd, for leap years, for cycling through values.</p>
+      <pre><code>4 % 2    <span class="c">// 0 — even numbers always have remainder 0 when divided by 2</span>
+7 % 2    <span class="c">// 1 — odd numbers always have remainder 1</span>
+10 % 3   <span class="c">// 1 — 10 divided by 3 is 3 remainder 1</span>
+100 % 400 <span class="c">// 100 — used in leap year check</span>
+
+<span class="c">// Check if number is even:</span>
+if (num % 2 === 0) { console.log('even'); }
+
+<span class="c">// Check divisibility (leap year logic):</span>
+if (year % 400 === 0) { return true; }   <span class="c">// divisible by 400</span>
+if (year % 100 === 0) { return false; }  <span class="c">// divisible by 100 but not 400</span>
+if (year % 4 === 0) { return true; }     <span class="c">// divisible by 4 but not 100</span></code></pre>
+
+      <h3>Comparison Operators</h3>
+      <p>These always return <code>true</code> or <code>false</code>. They're used inside <code>if</code> statements.</p>
+      <pre><code>5 === 5    <span class="c">// true  — strict equal (checks value AND type)</span>
+5 !== 3    <span class="c">// true  — strict not equal</span>
+5 > 3      <span class="c">// true  — greater than</span>
+5 < 3      <span class="c">// false — less than</span>
+5 >= 5     <span class="c">// true  — greater than or equal to</span>
+5 <= 4     <span class="c">// false — less than or equal to</span>
+
+<span class="c">// NEVER use == or != (loose equality)</span>
+5 == '5'   <span class="c">// true  — dangerous, converts types automatically</span>
+5 === '5'  <span class="c">// false — safe, different types = not equal</span></code></pre>
+
+      <h3>Logical Operators</h3>
+      <p>Used to combine multiple conditions.</p>
+      <pre><code>true && true    <span class="c">// true  — AND: both must be true</span>
+true && false   <span class="c">// false — AND: one is false so result is false</span>
+true || false   <span class="c">// true  — OR: at least one is true</span>
+false || false  <span class="c">// false — OR: both false so result is false</span>
+!true           <span class="c">// false — NOT: reverses the boolean</span>
+!false          <span class="c">// true</span>
+
+<span class="c">// Real usage:</span>
+if (age >= 18 && hasId) { console.log('allowed'); }
+if (isAdmin || isModerator) { console.log('access granted'); }
+if (!isLoggedIn) { console.log('please log in'); }</code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CONDITIONALS -->
+    <div class="doc-section" id="conditionals">
+      <h2>Conditionals</h2>
+      <p>Conditionals let your code make decisions. The program checks a condition and runs different code depending on whether it's true or false.</p>
+
+      <h3>if / else if / else</h3>
+      <p>The most common way to make decisions. Only one block runs — whichever condition is true first.</p>
+      <pre><code>if (score >= 90) {
+  console.log('A');
+} else if (score >= 80) {
+  console.log('B');
+} else if (score >= 70) {
+  console.log('C');
+} else {
+  console.log('F');
+}
+<span class="c">// Only ONE of these blocks runs, even if multiple conditions are true</span>
+<span class="c">// JS checks from top to bottom and stops at the first true condition</span></code></pre>
+
+      <h3>Ternary Operator — Short if/else</h3>
+      <p>A one-line version of if/else. Only use it when the result is simple — for complex logic, use a regular if/else for readability.</p>
+      <pre><code><span class="c">// Pattern: condition ? valueIfTrue : valueIfFalse</span>
+const label = age >= 18 ? 'adult' : 'minor';
+
+<span class="c">// That's the same as:</span>
+let label;
+if (age >= 18) {
+  label = 'adult';
+} else {
+  label = 'minor';
+}
+
+<span class="c">// Another example — showing win/loss result:</span>
+const result = humanScore > computerScore ? 'You win!' : 'Computer wins!';</code></pre>
+
+      <h3>Switch Statement — Multiple Exact Matches</h3>
+      <p>When you have many possible values to check for one variable, switch is cleaner than a chain of if/else if.</p>
+      <pre><code>switch (day) {
+  case 'Monday':
+    console.log('Start of week');
+    break;              <span class="c">// ← ALWAYS include break or it falls through to next case</span>
+  case 'Friday':
+    console.log('End of week');
+    break;
+  case 'Saturday':
+  case 'Sunday':        <span class="c">// multiple cases can share the same block</span>
+    console.log('Weekend');
+    break;
+  default:              <span class="c">// runs if nothing matched — like else</span>
+    console.log('Midweek');
+}</code></pre>
+
+      <h3>Truthy and Falsy Values</h3>
+      <p>In JavaScript, not just <code>true</code> and <code>false</code> work in conditions. Every value is either "truthy" or "falsy".</p>
+      <pre><code><span class="c">// Falsy values — these act like false in an if statement:</span>
+false, 0, '', null, undefined, NaN
+
+<span class="c">// Everything else is truthy — including:</span>
+'hello', 1, [], {}, -1, 'false'  <span class="c">// yes, even the string 'false' is truthy</span>
+
+<span class="c">// Practical use:</span>
+if (userName) {                    <span class="c">// runs if userName is not empty string/null/undefined</span>
+  console.log('Hello ' + userName);
+}
+
+if (!errors) {                     <span class="c">// runs if errors is null/undefined/empty</span>
+  console.log('No errors found');
+}</code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FUNCTIONS -->
+    <div class="doc-section" id="functions">
+      <h2>Functions</h2>
+      <p>A function is a reusable block of code. You define it once and can run it (call it) as many times as you want. Functions take inputs (parameters), do something, and give back an output (return value).</p>
+
+      <h3>Three Ways to Write a Function</h3>
+      <pre><code><span class="c">// 1. Function Declaration — hoisted (can be called before it's defined)</span>
+function add(a, b) {
+  return a + b;
+}
+
+<span class="c">// 2. Function Expression — stored in a variable, NOT hoisted</span>
+const add = function(a, b) {
+  return a + b;
+};                <span class="c">// semicolon here because it's a variable assignment</span>
+
+<span class="c">// 3. Arrow Function — shortest syntax, modern JS standard</span>
+const add = (a, b) => a + b;  <span class="c">// implicit return when no curly braces</span>
+
+const add = (a, b) => {       <span class="c">// with curly braces, need explicit return</span>
+  return a + b;
+};</code></pre>
+
+      <h3>Parameters vs Arguments</h3>
+      <pre><code>function greet(name) {  <span class="c">// 'name' is the PARAMETER — a placeholder variable</span>
+  return 'Hello ' + name;
+}
+
+greet('Alice');  <span class="c">// 'Alice' is the ARGUMENT — the actual value being passed</span>
+greet('Bob');    <span class="c">// same function, different argument</span></code></pre>
+
+      <h3>Return Values</h3>
+      <p>The <code>return</code> keyword sends a value back out of the function. Without it, the function returns <code>undefined</code>. This is one of the most common bugs beginners hit.</p>
+      <pre><code><span class="c">// ❌ Missing return — calling this gives you undefined</span>
+function add(a, b) {
+  const sum = a + b;
+  <span class="c">// calculated sum but never returned it!</span>
+}
+console.log(add(2, 3));  <span class="c">// undefined</span>
+
+<span class="c">// ✅ Correct</span>
+function add(a, b) {
+  return a + b;
+}
+console.log(add(2, 3));  <span class="c">// 5</span>
+
+<span class="c">// return also stops the function immediately — nothing after it runs</span>
+function check(num) {
+  if (num < 0) return 'negative';  <span class="c">// exits here if negative</span>
+  return 'positive';               <span class="c">// only reaches here if positive</span>
+}</code></pre>
+
+      <h3>Default Parameters</h3>
+      <p>You can give parameters a default value that's used when no argument is passed.</p>
+      <pre><code>function greet(name = 'stranger') {
+  return 'Hello ' + name;
+}
+
+greet('Alice')  <span class="c">// 'Hello Alice'</span>
+greet()         <span class="c">// 'Hello stranger' — uses default</span></code></pre>
+
+      <h3>How Odin Exercises Use Functions</h3>
+      <pre><code><span class="c">// Every Odin JS exercise looks like this:</span>
+const yourFunctionName = function(param1, param2) {
+  <span class="c">// your code here</span>
+  return result;
+};
+
+module.exports = yourFunctionName; <span class="c">// DO NOT touch this line — it's for the tests</span></code></pre>
+
+      <h3>Callbacks — Functions Passed Into Other Functions</h3>
+      <p>A callback is when you pass a function as an argument to another function. This is how <code>addEventListener</code>, <code>map</code>, <code>filter</code>, and <code>forEach</code> all work.</p>
+      <pre><code><span class="c">// Here, the arrow function is the callback passed to addEventListener:</span>
+button.addEventListener('click', () => {
+  console.log('clicked');
+});
+
+<span class="c">// Here, the arrow function is the callback passed to map:</span>
+const doubled = numbers.map(n => n * 2);
+
+<span class="c">// They're just functions being passed as values — nothing magical</span></code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SCOPE -->
+    <div class="doc-section" id="scope">
+      <h2>Scope</h2>
+      <p>Scope determines where a variable is accessible. If you try to use a variable outside its scope, you get a ReferenceError.</p>
+
+      <h3>Global Scope vs Local Scope</h3>
+      <pre><code>const globalVar = 'I am everywhere';  <span class="c">// accessible anywhere in the file</span>
+
+function myFunction() {
+  const localVar = 'I only exist here'; <span class="c">// only accessible inside this function</span>
+  console.log(globalVar);  <span class="c">// ✅ can access global from inside function</span>
+}
+
+console.log(localVar);    <span class="c">// ❌ ReferenceError — localVar doesn't exist here</span></code></pre>
+
+      <h3>Block Scope — let and const</h3>
+      <p><code>let</code> and <code>const</code> are block-scoped — they only exist inside the <code>{ }</code> they were declared in.</p>
+      <pre><code>if (true) {
+  let blockVar = 'inside block';
+  console.log(blockVar);  <span class="c">// ✅ works</span>
+}
+console.log(blockVar);    <span class="c">// ❌ ReferenceError — outside the block</span>
+
+<span class="c">// This is why loop counters declared with let don't leak out:</span>
+for (let i = 0; i &lt; 5; i++) {
+  <span class="c">// i only exists here</span>
+}
+console.log(i);  <span class="c">// ❌ ReferenceError</span></code></pre>
+
+      <h3>Why var is Broken</h3>
+      <pre><code><span class="c">// var is function-scoped, not block-scoped — it leaks out of blocks</span>
+if (true) {
+  var leaked = 'oops';
+}
+console.log(leaked);  <span class="c">// 'oops' — var ignored the block boundary</span>
+
+<span class="c">// This causes hard-to-find bugs. Always use let or const.</span></code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LOOPS -->
+    <div class="doc-section" id="loops">
+      <h2>Loops</h2>
+      <p>Loops repeat a block of code. Instead of copy-pasting the same code 100 times, you write it once and tell the loop how many times to run it.</p>
+
+      <h3>The for Loop — Three Parts</h3>
+      <pre><code>for (let i = 0; i &lt; 5; i++) {
+  console.log(i);
+}
+<span class="c">// Prints: 0, 1, 2, 3, 4</span>
+
+<span class="c">// Breaking it down:</span>
+<span class="c">// let i = 0    → START: create counter variable, set to 0</span>
+<span class="c">// i < 5        → CONDITION: keep looping while this is true</span>
+<span class="c">// i++          → UPDATE: runs at the end of each loop (adds 1 to i)</span>
+<span class="c">// When i reaches 5, condition is false, loop stops</span></code></pre>
+
+      <h3>Looping Over an Array</h3>
+      <pre><code>const fruits = ['apple', 'banana', 'cherry'];
+
+for (let i = 0; i &lt; fruits.length; i++) {
+  console.log(fruits[i]);
+}
+<span class="c">// apple, banana, cherry</span>
+
+<span class="c">// fruits.length is 3, so loop runs for i = 0, 1, 2</span>
+<span class="c">// fruits[0] = 'apple', fruits[1] = 'banana', fruits[2] = 'cherry'</span></code></pre>
+
+      <h3>forEach — Cleaner Array Looping</h3>
+      <p>When you just want to do something for each item in an array without needing the index number, <code>forEach</code> is cleaner.</p>
+      <pre><code>const fruits = ['apple', 'banana', 'cherry'];
+
+fruits.forEach(fruit => {
+  console.log(fruit);
+});
+<span class="c">// apple, banana, cherry</span>
+
+<span class="c">// You can also get the index if you need it:</span>
+fruits.forEach((fruit, index) => {
+  console.log(index, fruit);
+});
+<span class="c">// 0 apple, 1 banana, 2 cherry</span></code></pre>
+
+      <h3>Backwards Loop</h3>
+      <pre><code><span class="c">// Start at the end, count down to 0</span>
+const str = 'hello';
+
+for (let i = str.length - 1; i >= 0; i--) {
+  console.log(str[i]);
+}
+<span class="c">// o, l, l, e, h</span>
+<span class="c">// str.length - 1 = 4 (last index), goes down to 0</span></code></pre>
+
+      <h3>Nested Loop — Loop Inside a Loop</h3>
+      <p>Used in Etch-a-Sketch to create a grid. The outer loop creates rows, the inner loop creates squares within each row.</p>
+      <pre><code>for (let row = 0; row &lt; 3; row++) {
+  for (let col = 0; col &lt; 3; col++) {
+    console.log(`row ${row}, col ${col}`);
+  }
+}
+<span class="c">// row 0 col 0, row 0 col 1, row 0 col 2</span>
+<span class="c">// row 1 col 0, row 1 col 1, row 1 col 2</span>
+<span class="c">// row 2 col 0, row 2 col 1, row 2 col 2</span>
+<span class="c">// 3x3 = 9 iterations total</span></code></pre>
+
+      <h3>while Loop</h3>
+      <p>Use when you don't know how many times the loop needs to run — you just know what condition should stop it.</p>
+      <pre><code>let i = 0;
+while (i &lt; 5) {
+  console.log(i);
+  i++;  <span class="c">// ⚠️ CRITICAL: if you forget this, loop runs forever and crashes browser</span>
+}
+
+<span class="c">// A for loop is just a while loop written more compactly</span>
+<span class="c">// Use while when the end point isn't a simple counter</span></code></pre>
+
+      <h3>break and continue</h3>
+      <pre><code><span class="c">// break — exit the loop immediately</span>
+for (let i = 0; i &lt; 10; i++) {
+  if (i === 5) break;      <span class="c">// stops at 5, never reaches 6-9</span>
+  console.log(i);
+}
+<span class="c">// prints 0, 1, 2, 3, 4</span>
+
+<span class="c">// continue — skip this iteration and go to next</span>
+for (let i = 0; i &lt; 5; i++) {
+  if (i === 2) continue;   <span class="c">// skips 2, continues with 3</span>
+  console.log(i);
+}
+<span class="c">// prints 0, 1, 3, 4</span></code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ACCUMULATOR -->
+    <div class="doc-section" id="accumulator">
+      <h2>The Accumulator Pattern</h2>
+      <p>This is the most important pattern in beginner programming. Almost every Odin exercise uses it. A variable is created before the loop, built up inside the loop, and returned after.</p>
+
+      <div class="pattern-box">
+        <h4>The Universal Shape</h4>
+        <pre style="margin:0;padding:0;border:none;background:none"><code>let result = startingValue;    <span class="c">// '', 0, or [] depending on the goal</span>
+
+for (let i = 0; i &lt; something; i++) {
+  result = result + piece;     <span class="c">// OR: result += piece</span>
+}                              <span class="c">// result REMEMBERS previous rounds</span>
+
+return result;</code></pre>
+      </div>
+
+      <h3>Why result = result + piece and not just result = piece?</h3>
+      <p>Without referencing <code>result</code> on the right side, you overwrite it every loop instead of building on it.</p>
+      <pre><code><span class="c">// ❌ Wrong — resets to just string each round</span>
+result = string;
+<span class="c">// round 1: result = 'hey'</span>
+<span class="c">// round 2: result = 'hey' (lost round 1!)</span>
+<span class="c">// round 3: result = 'hey' (still only 'hey')</span>
+
+<span class="c">// ✅ Correct — builds on what's already there</span>
+result = result + string;
+<span class="c">// round 1: result = '' + 'hey' = 'hey'</span>
+<span class="c">// round 2: result = 'hey' + 'hey' = 'heyhey'</span>
+<span class="c">// round 3: result = 'heyhey' + 'hey' = 'heyheyhey'</span></code></pre>
+
+      <h3>Starting Values by Task</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Task</th><th>Start with</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Build a string (repeatString, reverseString)</td><td><code>let result = ''</code></td><td>Adding text to empty string gives you that text</td></tr>
+            <tr><td>Sum numbers (sumAll)</td><td><code>let sum = 0</code></td><td>Adding number to 0 gives you that number</td></tr>
+            <tr><td>Collect items into array</td><td><code>let result = []</code></td><td>Push items into the empty array each round</td></tr>
+            <tr><td>Count something</td><td><code>let count = 0</code></td><td>Start at zero, add 1 each time condition matches</td></tr>
+            <tr><td>Multiply numbers</td><td><code>let result = 1</code></td><td>Multiplying by 1 doesn't change anything — safe starting point</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- STRINGS -->
+    <div class="doc-section" id="strings">
+      <h2>Strings</h2>
+      <p>Strings are sequences of characters. They behave like arrays — individual characters have indexes starting at 0, and you can loop over them.</p>
+
+      <h3>Accessing Characters</h3>
+      <pre><code>let str = 'hello';
+
+str[0]               <span class="c">// 'h'  — first letter, index 0</span>
+str[4]               <span class="c">// 'o'  — last letter of 'hello'</span>
+str[str.length - 1]  <span class="c">// 'o'  — always gets last character regardless of length</span>
+str.length           <span class="c">// 5    — number of characters</span></code></pre>
+
+      <h3>String Methods</h3>
+      <pre><code>str.toUpperCase()         <span class="c">// 'HELLO' — all caps</span>
+str.toLowerCase()         <span class="c">// 'hello' — all lowercase</span>
+str.trim()                <span class="c">// removes whitespace from both ends</span>
+str.includes('ell')       <span class="c">// true — checks if substring exists</span>
+str.startsWith('hel')     <span class="c">// true — checks beginning</span>
+str.endsWith('llo')       <span class="c">// true — checks end</span>
+str.indexOf('l')          <span class="c">// 2 — position of first match, -1 if not found</span>
+
+str.slice(1)              <span class="c">// 'ello' — from index 1 to end</span>
+str.slice(1, 3)           <span class="c">// 'el'   — from index 1 up to (NOT including) 3</span>
+str.slice(-2)             <span class="c">// 'lo'   — last 2 characters (negative counts from end)</span>
+
+str.replace('l', 'r')     <span class="c">// 'herlo' — replaces FIRST match only</span>
+str.replace(/l/g, 'r')    <span class="c">// 'herro' — replaces ALL matches (g = global flag)</span>
+str.replaceAll('l', 'r')  <span class="c">// 'herro' — modern way to replace all</span>
+
+str.split('')             <span class="c">// ['h','e','l','l','o'] — converts to array of chars</span>
+str.split(' ')            <span class="c">// splits on spaces → array of words</span>
+['h','i'].join('')        <span class="c">// 'hi' — joins array back to string</span>
+
+str.repeat(3)             <span class="c">// 'hellohellohello' — repeats string</span>
+str.padStart(8, '0')      <span class="c">// '000hello' — pads to length 8 with zeros</span></code></pre>
+
+      <h3>Reversing a String — Two Ways</h3>
+      <pre><code><span class="c">// Way 1: Backwards loop (you understand every step)</span>
+function reverseString(str) {
+  let result = '';
+  for (let i = str.length - 1; i >= 0; i--) {
+    result += str[i];
+  }
+  return result;
+}
+
+<span class="c">// Way 2: One-liner using array methods</span>
+function reverseString(str) {
+  return str.split('').reverse().join('');
+  <span class="c">// split('')  → convert to array of characters</span>
+  <span class="c">// .reverse() → reverse the array in place</span>
+  <span class="c">// .join('')  → convert back to string</span>
+}</code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ARRAYS -->
+    <div class="doc-section" id="arrays">
+      <h2>Arrays</h2>
+      <p>Arrays are ordered lists. They can hold strings, numbers, booleans, other arrays, objects — anything. Indexes start at 0, always.</p>
+
+      <h3>Creating and Accessing Arrays</h3>
+      <pre><code>const arr = ['a', 'b', 'c', 'd'];
+
+arr[0]           <span class="c">// 'a' — first item</span>
+arr[2]           <span class="c">// 'c' — third item</span>
+arr[arr.length - 1] <span class="c">// 'd' — last item, works for any length</span>
+arr.length       <span class="c">// 4</span></code></pre>
+
+      <h3>Adding and Removing Items</h3>
+      <pre><code>arr.push('e')     <span class="c">// adds 'e' to the END → ['a','b','c','d','e']</span>
+arr.pop()         <span class="c">// removes and returns last item → removes 'e'</span>
+arr.unshift('z')  <span class="c">// adds 'z' to the BEGINNING → ['z','a','b','c','d']</span>
+arr.shift()       <span class="c">// removes and returns first item → removes 'z'</span>
+
+<span class="c">// splice — removes/replaces items in place (DESTRUCTIVE — changes original)</span>
+arr.splice(1, 2)         <span class="c">// starting at index 1, remove 2 items</span>
+arr.splice(1, 0, 'NEW')  <span class="c">// at index 1, remove 0 items, insert 'NEW'</span>
+
+<span class="c">// slice — copies part of array (NON-DESTRUCTIVE — original unchanged)</span>
+arr.slice(1, 3)   <span class="c">// returns new array from index 1 to 2 (not including 3)</span>
+arr.slice()       <span class="c">// copies the entire array</span></code></pre>
+
+      <h3>Searching Arrays</h3>
+      <pre><code>arr.indexOf('b')       <span class="c">// 1 — position of first match, -1 if not found</span>
+arr.includes('c')      <span class="c">// true — returns boolean</span>
+arr.find(x => x > 2)   <span class="c">// returns first element where condition is true</span>
+arr.findIndex(x => x > 2) <span class="c">// returns index of first match</span></code></pre>
+
+      <h3>Destructive vs Non-Destructive</h3>
+      <div class="callout tip">
+        <div class="callout-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+        <p><strong>Destructive methods</strong> change the original array: <code>push</code>, <code>pop</code>, <code>shift</code>, <code>unshift</code>, <code>splice</code>, <code>reverse</code>, <code>sort</code>. <strong>Non-destructive methods</strong> return a new array, leaving the original untouched: <code>map</code>, <code>filter</code>, <code>slice</code>, <code>concat</code>. Always know which is which before using one.</p>
+      </div>
+
+      <h3>Other Useful Array Methods</h3>
+      <pre><code>arr.join(', ')         <span class="c">// converts to string: 'a, b, c, d'</span>
+arr.concat([1, 2])     <span class="c">// merges arrays — non-destructive</span>
+arr.flat()             <span class="c">// flattens nested arrays one level deep</span>
+arr.reverse()          <span class="c">// reverses in place — DESTRUCTIVE</span>
+arr.sort()             <span class="c">// sorts alphabetically — DESTRUCTIVE</span>
+arr.sort((a, b) => a - b)  <span class="c">// sorts numbers ascending</span>
+arr.sort((a, b) => b - a)  <span class="c">// sorts numbers descending</span>
+Array.from('hello')    <span class="c">// ['h','e','l','l','o'] — converts string/NodeList to array</span></code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ARRAY METHODS -->
+    <div class="doc-section" id="array-methods">
+      <h2>Array Methods — map, filter, reduce</h2>
+      <p>These three methods replace most <code>for</code> loops when working with arrays. They each take a callback function and return a result. They never modify the original array.</p>
+
+      <h3>.map() — Transform Every Item</h3>
+      <p>Goes through every item, runs it through your function, and returns a NEW array of the transformed results. The new array is always the same length as the original.</p>
+      <pre><code>const numbers = [1, 2, 3, 4, 5];
+
+const doubled = numbers.map(n => n * 2);
+console.log(doubled);   <span class="c">// [2, 4, 6, 8, 10]</span>
+console.log(numbers);   <span class="c">// [1, 2, 3, 4, 5] — original unchanged</span>
+
+<span class="c">// With strings:</span>
+const names = ['alice', 'bob', 'charlie'];
+const upper = names.map(name => name.toUpperCase());
+<span class="c">// ['ALICE', 'BOB', 'CHARLIE']</span>
+
+<span class="c">// With objects:</span>
+const users = [{name: 'Alice', age: 25}, {name: 'Bob', age: 30}];
+const names2 = users.map(user => user.name);
+<span class="c">// ['Alice', 'Bob']</span></code></pre>
+
+      <h3>.filter() — Keep Only Matching Items</h3>
+      <p>Goes through every item, runs it through your function. Keeps only the items where your function returns <code>true</code>. The result can be shorter than the original.</p>
+      <pre><code>const numbers = [1, 2, 3, 4, 5, 6];
+
+const evens = numbers.filter(n => n % 2 === 0);
+console.log(evens);    <span class="c">// [2, 4, 6]</span>
+
+const bigNums = numbers.filter(n => n > 3);
+console.log(bigNums);  <span class="c">// [4, 5, 6]</span>
+
+<span class="c">// How removeFromArray uses filter:</span>
+function removeFromArray(array, ...args) {
+  return array.filter(item => !args.includes(item));
+  <span class="c">// !args.includes(item) → keep items NOT in the removal list</span>
+}</code></pre>
+
+      <h3>.reduce() — Boil Down to One Value</h3>
+      <p>The most powerful but hardest to understand. Goes through every item and accumulates a single result. Think of it as a loop with a built-in accumulator.</p>
+      <pre><code>const numbers = [1, 2, 3, 4, 5];
+
+const sum = numbers.reduce((accumulator, currentItem) => {
+  return accumulator + currentItem;
+}, 0);  <span class="c">// 0 is the starting value for accumulator</span>
+console.log(sum);  <span class="c">// 15</span>
+
+<span class="c">// Step by step what reduce does:</span>
+<span class="c">// Start: accumulator = 0</span>
+<span class="c">// Round 1: 0 + 1 = 1</span>
+<span class="c">// Round 2: 1 + 2 = 3</span>
+<span class="c">// Round 3: 3 + 3 = 6</span>
+<span class="c">// Round 4: 6 + 4 = 10</span>
+<span class="c">// Round 5: 10 + 5 = 15</span>
+<span class="c">// Final: 15</span>
+
+<span class="c">// Another example — count occurrences:</span>
+const votes = ['yes', 'no', 'yes', 'yes', 'no'];
+const tally = votes.reduce((acc, vote) => {
+  acc[vote] = (acc[vote] || 0) + 1;
+  return acc;
+}, {});
+<span class="c">// { yes: 3, no: 2 }</span></code></pre>
+
+      <h3>Chaining Methods</h3>
+      <p>You can chain these methods together — the result of one becomes the input of the next.</p>
+      <pre><code>const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+const result = numbers
+  .filter(n => n % 2 === 0)   <span class="c">// keep evens: [2,4,6,8,10]</span>
+  .map(n => n * 3)             <span class="c">// triple them: [6,12,18,24,30]</span>
+  .reduce((acc, n) => acc + n, 0); <span class="c">// sum: 90</span>
+
+console.log(result);  <span class="c">// 90</span></code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- OBJECTS -->
+    <div class="doc-section" id="objects">
+      <h2>Objects</h2>
+      <p>An object stores related data and functions together as key-value pairs. Instead of five separate variables for one person's info, you put them all in one object.</p>
+
+      <h3>Creating and Accessing Objects</h3>
+      <pre><code>const person = {
+  name: 'Darian',      <span class="c">// key: value</span>
+  age: 18,
+  city: 'Luxembourg',
+  isStudent: true
+};
+
+<span class="c">// Dot notation — most common way to access properties</span>
+person.name     <span class="c">// 'Darian'</span>
+person.age      <span class="c">// 18</span>
+
+<span class="c">// Bracket notation — needed when key is a variable or has special characters</span>
+person['name']  <span class="c">// 'Darian'</span>
+const key = 'age';
+person[key]     <span class="c">// 18</span></code></pre>
+
+      <h3>Adding, Changing, and Deleting Properties</h3>
+      <pre><code>person.job = 'developer';    <span class="c">// add new property</span>
+person.age = 19;             <span class="c">// change existing property</span>
+delete person.isStudent;     <span class="c">// remove a property</span>
+
+<span class="c">// Check if a property exists:</span>
+'name' in person             <span class="c">// true</span>
+person.hasOwnProperty('age') <span class="c">// true</span></code></pre>
+
+      <h3>Methods — Functions Inside Objects</h3>
+      <pre><code>const person = {
+  name: 'Darian',
+  greet() {                        <span class="c">// method shorthand</span>
+    return 'Hello, I am ' + this.name;  <span class="c">// 'this' refers to the object itself</span>
+  }
+};
+
+person.greet();  <span class="c">// 'Hello, I am Darian'</span></code></pre>
+
+      <h3>Looping Over Object Properties</h3>
+      <pre><code>const scores = { alice: 90, bob: 85, charlie: 92 };
+
+<span class="c">// for...in — loops over keys</span>
+for (const key in scores) {
+  console.log(key, scores[key]);
+}
+<span class="c">// alice 90, bob 85, charlie 92</span>
+
+<span class="c">// Object.keys() — array of keys</span>
+Object.keys(scores)    <span class="c">// ['alice', 'bob', 'charlie']</span>
+
+<span class="c">// Object.values() — array of values</span>
+Object.values(scores)  <span class="c">// [90, 85, 92]</span>
+
+<span class="c">// Object.entries() — array of [key, value] pairs</span>
+Object.entries(scores) <span class="c">// [['alice',90], ['bob',85], ['charlie',92]]</span></code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- TEMPLATE LITERALS -->
+    <div class="doc-section" id="template-literals">
+      <h2>Template Literals</h2>
+      <p>Template literals are strings written with backticks instead of quotes. They let you embed variables and expressions directly inside a string, which is much cleaner than string concatenation with <code>+</code>.</p>
+
+      <pre><code>const name = 'Darian';
+const score = 42;
+
+<span class="c">// Old way with concatenation:</span>
+console.log('Hello ' + name + ', your score is ' + score + '!');
+
+<span class="c">// New way with template literal — much cleaner:</span>
+console.log(`Hello ${name}, your score is ${score}!`);
+<span class="c">// 'Hello Darian, your score is 42!'</span>
+
+<span class="c">// You can put any expression inside ${}:</span>
+console.log(`2 + 2 = ${2 + 2}`);             <span class="c">// '2 + 2 = 4'</span>
+console.log(`Is adult: ${score >= 18}`);      <span class="c">// 'Is adult: true'</span>
+console.log(`Upper: ${name.toUpperCase()}`);  <span class="c">// 'Upper: DARIAN'</span>
+
+<span class="c">// Multi-line strings — template literals respect line breaks:</span>
+const html = `
+  &lt;div class="card"&gt;
+    &lt;h2&gt;${name}&lt;/h2&gt;
+    &lt;p&gt;Score: ${score}&lt;/p&gt;
+  &lt;/div&gt;
+`;</code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- DESTRUCTURING -->
+    <div class="doc-section" id="destructuring">
+      <h2>Destructuring</h2>
+      <p>Destructuring is a shortcut for pulling values out of arrays and objects into separate variables.</p>
+
+      <h3>Array Destructuring</h3>
+      <pre><code>const arr = [1, 2, 3];
+
+<span class="c">// Old way:</span>
+const first = arr[0];
+const second = arr[1];
+
+<span class="c">// Destructuring:</span>
+const [first, second, third] = arr;
+console.log(first);   <span class="c">// 1</span>
+console.log(second);  <span class="c">// 2</span>
+
+<span class="c">// Skip items with empty commas:</span>
+const [, , third] = arr;  <span class="c">// only grabs third item</span>
+
+<span class="c">// Swap variables — used in sumAll solution:</span>
+let a = 1, b = 2;
+[a, b] = [b, a];
+console.log(a, b);  <span class="c">// 2, 1</span></code></pre>
+
+      <h3>Object Destructuring</h3>
+      <pre><code>const person = { name: 'Darian', age: 18, city: 'Luxembourg' };
+
+<span class="c">// Old way:</span>
+const name = person.name;
+const age = person.age;
+
+<span class="c">// Destructuring:</span>
+const { name, age, city } = person;
+console.log(name);  <span class="c">// 'Darian'</span>
+console.log(age);   <span class="c">// 18</span>
+
+<span class="c">// Rename while destructuring:</span>
+const { name: personName, age: personAge } = person;
+console.log(personName);  <span class="c">// 'Darian'</span>
+
+<span class="c">// Default values:</span>
+const { name, job = 'unknown' } = person;
+console.log(job);  <span class="c">// 'unknown' — person has no job property</span>
+
+<span class="c">// In function parameters — very common pattern:</span>
+function greet({ name, age }) {
+  return `Hello ${name}, you are ${age}`;
+}
+greet(person);  <span class="c">// 'Hello Darian, you are 18'</span></code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SPREAD & REST -->
+    <div class="doc-section" id="spread-rest">
+      <h2>Spread &amp; Rest Operators</h2>
+      <p>Both use <code>...</code> (three dots) but do opposite things. Spread expands something. Rest collects things.</p>
+
+      <h3>Rest Parameters — Collecting Arguments</h3>
+      <p>Used in function parameters to collect all remaining arguments into an array. You used this in <code>removeFromArray</code>.</p>
+      <pre><code><span class="c">// Without rest — only handles exactly 2 extra arguments:</span>
+function remove(array, item1, item2) { ... }
+
+<span class="c">// With rest — handles ANY number of extra arguments:</span>
+function removeFromArray(array, ...args) {
+  <span class="c">// args is now an array of all extra arguments passed in</span>
+  return array.filter(item => !args.includes(item));
+}
+
+removeFromArray([1,2,3,4], 2, 4);
+<span class="c">// array = [1,2,3,4]</span>
+<span class="c">// args  = [2, 4]  ← collected into array automatically</span></code></pre>
+
+      <h3>Spread Operator — Expanding Arrays/Objects</h3>
+      <pre><code><span class="c">// Spread an array into function arguments:</span>
+const nums = [1, 5, 3, 2, 4];
+Math.max(...nums)   <span class="c">// same as Math.max(1, 5, 3, 2, 4) → 5</span>
+
+<span class="c">// Copy an array:</span>
+const original = [1, 2, 3];
+const copy = [...original];    <span class="c">// new array, not a reference</span>
+
+<span class="c">// Merge arrays:</span>
+const a = [1, 2];
+const b = [3, 4];
+const merged = [...a, ...b];   <span class="c">// [1, 2, 3, 4]</span>
+
+<span class="c">// Copy an object:</span>
+const person = { name: 'Darian', age: 18 };
+const copy2 = { ...person };
+
+<span class="c">// Merge objects:</span>
+const extra = { city: 'Luxembourg' };
+const full = { ...person, ...extra };
+<span class="c">// { name: 'Darian', age: 18, city: 'Luxembourg' }</span></code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- DOM -->
+    <div class="doc-section" id="dom">
+      <h2>DOM Manipulation</h2>
+      <p>The DOM (Document Object Model) is how JavaScript talks to the HTML on your page. When the browser loads HTML, it converts it into a JavaScript object you can read and modify with code. Your HTML file stays unchanged — the DOM is the live version in the browser's memory.</p>
+
+      <div class="callout tip">
+        <div class="callout-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+        <p><strong>Always put your script tag at the bottom of body or use defer.</strong> If your JS runs before the HTML is parsed, querySelector will find nothing because the elements don't exist yet.</p>
+      </div>
+      <pre><code><span class="c">&lt;!-- Option 1: Script at bottom of body (simplest) --&gt;</span>
+&lt;body&gt;
+  &lt;div id="container"&gt;&lt;/div&gt;
+  &lt;script src="script.js"&gt;&lt;/script&gt;  <span class="c">&lt;!-- LAST in body --&gt;</span>
+&lt;/body&gt;
+
+<span class="c">&lt;!-- Option 2: defer attribute in head --&gt;</span>
+&lt;head&gt;
+  &lt;script src="script.js" defer&gt;&lt;/script&gt;  <span class="c">&lt;!-- defer = wait for HTML to finish --&gt;</span>
+&lt;/head&gt;</code></pre>
+
+      <h3>Selecting Elements</h3>
+      <pre><code><span class="c">// querySelector — returns the FIRST matching element, or null if none found</span>
+document.querySelector('#id')         <span class="c">// by ID — use #</span>
+document.querySelector('.class')      <span class="c">// by class — use .</span>
+document.querySelector('button')      <span class="c">// by tag name</span>
+document.querySelector('div.card')    <span class="c">// div with class card</span>
+document.querySelector('#form input') <span class="c">// input inside #form</span>
+
+<span class="c">// querySelectorAll — returns ALL matches as a NodeList (not a real array!)</span>
+document.querySelectorAll('.card')    <span class="c">// all elements with class card</span>
+document.querySelectorAll('button')   <span class="c">// all buttons</span>
+
+<span class="c">// NodeList looks like an array but is missing some methods</span>
+<span class="c">// Convert to real array if needed:</span>
+const buttons = Array.from(document.querySelectorAll('button'));
+const buttons2 = [...document.querySelectorAll('button')];  <span class="c">// spread method</span></code></pre>
+
+      <h3>Creating, Modifying, and Adding Elements</h3>
+      <pre><code><span class="c">// The three-step pattern for every new element:</span>
+const div = document.createElement('div');   <span class="c">// 1. CREATE (in memory, not on page yet)</span>
+div.textContent = 'Hello World';             <span class="c">// 2. MODIFY</span>
+document.querySelector('#container').appendChild(div);  <span class="c">// 3. APPEND to page</span>
+
+<span class="c">// Other ways to append:</span>
+parent.appendChild(newElement)        <span class="c">// adds as last child</span>
+parent.insertBefore(newEl, refEl)     <span class="c">// inserts before refEl</span>
+parent.prepend(newElement)            <span class="c">// adds as first child</span>
+element.after(newElement)             <span class="c">// inserts after element</span>
+
+<span class="c">// Removing elements:</span>
+parent.removeChild(child)             <span class="c">// old way</span>
+element.remove()                      <span class="c">// modern way — just call .remove() on it</span></code></pre>
+
+      <h3>Changing Content and Text</h3>
+      <pre><code>element.textContent = 'New text';     <span class="c">// safe — treats as plain text</span>
+element.innerHTML = '&lt;b&gt;Bold!&lt;/b&gt;';  <span class="c">// renders HTML — risky if user-provided content</span>
+
+<span class="c">// textContent vs innerHTML:</span>
+<span class="c">// textContent is SAFE — always use for user input or plain text</span>
+<span class="c">// innerHTML is POWERFUL but can cause XSS security issues if misused</span>
+
+element.value    <span class="c">// for input fields — gets/sets the typed value</span></code></pre>
+
+      <h3>Changing Styles</h3>
+      <pre><code><span class="c">// Direct inline style (camelCase for hyphenated CSS properties):</span>
+element.style.color = 'red';
+element.style.backgroundColor = 'blue';   <span class="c">// background-color → backgroundColor</span>
+element.style.fontSize = '20px';          <span class="c">// font-size → fontSize</span>
+element.style.border = '2px solid black';
+
+<span class="c">// classList — the cleaner way (define styles in CSS, toggle classes in JS)</span>
+element.classList.add('active');       <span class="c">// add a class</span>
+element.classList.remove('active');    <span class="c">// remove a class</span>
+element.classList.toggle('active');    <span class="c">// add if absent, remove if present</span>
+element.classList.contains('active'); <span class="c">// returns true or false</span></code></pre>
+
+      <h3>Changing Attributes</h3>
+      <pre><code>element.setAttribute('id', 'myDiv');    <span class="c">// set any attribute</span>
+element.getAttribute('id');             <span class="c">// get attribute value</span>
+element.removeAttribute('id');          <span class="c">// remove attribute</span>
+
+<span class="c">// Common attributes you can also set directly as properties:</span>
+input.value = 'hello';     <span class="c">// input field value</span>
+input.disabled = true;     <span class="c">// disable an input or button</span>
+img.src = 'photo.jpg';     <span class="c">// change image source</span>
+a.href = 'https://...';    <span class="c">// change link target</span></code></pre>
+
+      <h3>Traversing the DOM — Moving Between Elements</h3>
+      <pre><code>element.parentElement         <span class="c">// the element directly above</span>
+element.children              <span class="c">// HTMLCollection of direct children</span>
+element.firstElementChild     <span class="c">// first child element</span>
+element.lastElementChild      <span class="c">// last child element</span>
+element.nextElementSibling    <span class="c">// the element after (same level)</span>
+element.previousElementSibling <span class="c">// the element before (same level)</span></code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- EVENTS -->
+    <div class="doc-section" id="events">
+      <h2>Events In Depth</h2>
+      <p>Events are things that happen in the browser — a click, a keypress, a mouse movement. JavaScript can listen for these and run code when they happen.</p>
+
+      <h3>The Three Ways to Handle Events</h3>
+      <pre><code><span class="c">// Method 1 — Inline HTML attribute (BAD — mixes HTML and JS, avoid)</span>
+// &lt;button onclick="doSomething()"&gt;Click&lt;/button&gt;
+
+<span class="c">// Method 2 — on-event property (LIMITED — only one handler per event)</span>
+button.onclick = () => { console.log('clicked'); };
+<span class="c">// Adding a second onclick would overwrite the first</span>
+
+<span class="c">// Method 3 — addEventListener (BEST — use this always)</span>
+button.addEventListener('click', () => {
+  console.log('clicked');
+});
+<span class="c">// Can add multiple listeners to the same element</span>
+<span class="c">// Can remove specific listeners later</span>
+<span class="c">// Supports all event types</span></code></pre>
+
+      <h3>The Event Object</h3>
+      <p>Every event listener callback receives an event object automatically. It contains information about what happened.</p>
+      <pre><code>button.addEventListener('click', (e) => {
+  console.log(e);             <span class="c">// the full event object</span>
+  console.log(e.target);      <span class="c">// the element that was clicked</span>
+  console.log(e.type);        <span class="c">// 'click'</span>
+
+  e.target.style.background = 'blue';  <span class="c">// change the clicked element</span>
+});
+
+<span class="c">// e.target is extremely useful — it tells you exactly WHICH element triggered the event</span></code></pre>
+
+      <h3>Common Event Types</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Event</th><th>When it fires</th><th>Common use</th></tr></thead>
+          <tbody>
+            <tr><td><code>click</code></td><td>Mouse button pressed and released on element</td><td>Buttons, links</td></tr>
+            <tr><td><code>mouseover</code></td><td>Mouse enters the element</td><td>Hover effects — used in Etch-a-Sketch</td></tr>
+            <tr><td><code>mouseout</code></td><td>Mouse leaves the element</td><td>Hover effects</td></tr>
+            <tr><td><code>mousedown</code></td><td>Mouse button pressed (before releasing)</td><td>Drag start</td></tr>
+            <tr><td><code>mouseup</code></td><td>Mouse button released</td><td>Drag end</td></tr>
+            <tr><td><code>keydown</code></td><td>Key pressed down</td><td>Keyboard shortcuts, games</td></tr>
+            <tr><td><code>keyup</code></td><td>Key released</td><td>Form validation while typing</td></tr>
+            <tr><td><code>input</code></td><td>Value of input changes</td><td>Live search, character counter</td></tr>
+            <tr><td><code>change</code></td><td>Input loses focus after change</td><td>Dropdowns, checkboxes</td></tr>
+            <tr><td><code>submit</code></td><td>Form submitted</td><td>Form handling</td></tr>
+            <tr><td><code>DOMContentLoaded</code></td><td>HTML parsed (before images load)</td><td>Running JS when page ready</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Adding Listeners to Multiple Elements</h3>
+      <pre><code>const buttons = document.querySelectorAll('button');
+
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    console.log(button.id);   <span class="c">// logs which button was clicked</span>
+  });
+});
+
+<span class="c">// Alternative: event delegation (one listener on parent, not individual children)</span>
+<span class="c">// Better for dynamic elements (added to DOM after page load)</span>
+document.querySelector('#container').addEventListener('click', (e) => {
+  if (e.target.classList.contains('grid-item')) {
+    e.target.style.backgroundColor = 'black';  <span class="c">// only fires on grid items</span>
+  }
+});</code></pre>
+
+      <h3>Removing Event Listeners</h3>
+      <pre><code><span class="c">// To remove a listener, you need a named function reference</span>
+function handleClick() {
+  console.log('clicked');
+}
+
+button.addEventListener('click', handleClick);
+button.removeEventListener('click', handleClick);  <span class="c">// removes exactly this listener</span>
+
+<span class="c">// Arrow functions can't be removed this way — they create a new function each time</span></code></pre>
+
+      <h3>Preventing Default Browser Behaviour</h3>
+      <pre><code>link.addEventListener('click', (e) => {
+  e.preventDefault();  <span class="c">// stops the link from navigating</span>
+});
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();  <span class="c">// stops form from reloading the page</span>
+  <span class="c">// handle form data yourself instead</span>
+});</code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- GIT -->
+    <div class="doc-section" id="git">
+      <h2>Git &amp; GitHub</h2>
+      <p>Git tracks changes to your code over time. GitHub stores your code online. Think of Git as a save system for your project — every commit is a save point you can go back to.</p>
+
+      <h3>The Basic Workflow</h3>
+      <pre><code><span class="c"># Check status — always do this first to see what's changed</span>
+git status
+
+<span class="c"># Stage files for commit (add to the "package" you're about to save)</span>
+git add filename.js        <span class="c"># add a specific file</span>
+git add .                  <span class="c"># add everything changed</span>
+
+<span class="c"># Commit — create a save point with a message describing what changed</span>
+git commit -m "Add leap year function"
+
+<span class="c"># Push — upload your commits to GitHub</span>
+git push origin main</code></pre>
+
+      <h3>Branching</h3>
+      <p>A branch is a parallel version of your code. You make changes on a branch without touching the main code. When done, you merge the branch back.</p>
+      <pre><code><span class="c"># Create a new branch and switch to it in one command</span>
+git checkout -b feature-name
+
+<span class="c"># Check which branch you're on (asterisk shows current)</span>
+git branch
+
+<span class="c"># Switch to an existing branch</span>
+git checkout main
+
+<span class="c"># Push a new branch to GitHub</span>
+git push origin feature-name
+
+<span class="c"># Merge a branch into current branch</span>
+git checkout main              <span class="c"># switch to branch you want to merge INTO</span>
+git merge feature-name         <span class="c"># merge feature-name into main</span>
+
+<span class="c"># Delete a branch after merging</span>
+git branch -d feature-name            <span class="c"># local</span>
+git push origin --delete feature-name <span class="c"># remote (GitHub)</span></code></pre>
+
+      <h3>Other Useful Commands</h3>
+      <pre><code><span class="c"># See commit history</span>
+git log
+
+<span class="c"># See what changed in files (before staging)</span>
+git diff
+
+<span class="c"># Undo changes to a file (back to last commit)</span>
+git checkout -- filename.js
+
+<span class="c"># Clone a repo from GitHub to your computer</span>
+git clone https://github.com/user/repo.git
+
+<span class="c"># Pull latest changes from GitHub</span>
+git pull origin main</code></pre>
+
+      <h3>Writing Good Commit Messages</h3>
+      <ul class="bullets">
+        <li>Use present tense: "Add function" not "Added function"</li>
+        <li>Be specific: "Fix leap year bug for years divisible by 100" not "fix bug"</li>
+        <li>Keep it under 72 characters</li>
+        <li>Commit small and often — every time you finish one thing</li>
+      </ul>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ERRORS -->
+    <div class="doc-section" id="errors">
+      <h2>Errors &amp; Debugging</h2>
+      <p>Errors are normal. Every developer sees them daily. The skill is reading them correctly so you can fix them fast.</p>
+
+      <h3>The Main Error Types</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Error</th><th>What it means</th><th>Common cause</th></tr></thead>
+          <tbody>
+            <tr><td><code>ReferenceError</code></td><td>You used a variable that doesn't exist or isn't accessible</td><td>Typo in variable name, variable declared in different scope, using variable before declaring it</td></tr>
+            <tr><td><code>TypeError</code></td><td>You used a value in a way its type doesn't support</td><td>Calling <code>.map()</code> on a number, accessing property of null/undefined, calling something that isn't a function</td></tr>
+            <tr><td><code>SyntaxError</code></td><td>Your code can't be parsed — invalid syntax</td><td>Missing bracket, parenthesis, or curly brace, comma instead of semicolon</td></tr>
+            <tr><td><code>RangeError</code></td><td>Value is outside the allowed range</td><td>Infinite recursion, array length set to negative</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Reading Error Messages</h3>
+      <pre><code><span class="c">// A typical error in the console looks like this:</span>
+<span class="c">// TypeError: Cannot read properties of undefined (reading 'textContent')</span>
+<span class="c">//     at script.js:15:20</span>
+
+<span class="c">// Read it as:</span>
+<span class="c">// 1. TYPE: TypeError</span>
+<span class="c">// 2. MESSAGE: Cannot read properties of undefined (reading 'textContent')</span>
+<span class="c">//    → means: you tried to do .textContent on something that is undefined</span>
+<span class="c">//    → probably querySelector returned null because element wasn't found</span>
+<span class="c">// 3. LOCATION: script.js line 15, column 20</span>
+<span class="c">//    → go to that exact line and look there first</span></code></pre>
+
+      <h3>Debugging with console.log</h3>
+      <p>The most reliable debugging tool. When something isn't working, log the values at each step to find where they go wrong.</p>
+      <pre><code>function sumAll(start, end) {
+  console.log('start:', start, 'end:', end);  <span class="c">// see what came in</span>
+
+  let result = 0;
+
+  for (let i = start; i &lt;= end; i++) {
+    result += i;
+    console.log('i:', i, 'result so far:', result);  <span class="c">// track each step</span>
+  }
+
+  console.log('final result:', result);  <span class="c">// see what goes out</span>
+  return result;
+}
+
+<span class="c">// Remove console.logs once you've found the bug</span></code></pre>
+
+      <h3>Chrome DevTools — Your Main Debugging Tool</h3>
+      <ul class="bullets">
+        <li>Open with <strong>F12</strong> or right-click → Inspect</li>
+        <li><strong>Console tab</strong> — see errors, run JavaScript, check values</li>
+        <li><strong>Elements tab</strong> — see the live DOM, check if elements were created correctly</li>
+        <li><strong>Sources tab</strong> — set breakpoints, step through code line by line</li>
+        <li><code>console.log()</code>, <code>console.warn()</code>, <code>console.error()</code>, <code>console.table()</code></li>
+      </ul>
+
+      <h3>Debugging Workflow</h3>
+      <ol class="steps">
+        <li>Read the error message carefully — it tells you the type and exact line number</li>
+        <li>Go to that line — look at what's on it and the lines before it</li>
+        <li>Add <code>console.log()</code> before the broken line to see the values</li>
+        <li>Check what the value actually is vs what you expected it to be</li>
+        <li>Narrow it down — add more logs until you find exactly where it breaks</li>
+        <li>Fix it, remove the console.logs, test again</li>
+      </ol>
+    </div>
+
+    <hr class="divider">
+
+    <!-- EXERCISES -->
+    <div class="doc-section" id="exercises">
+      <h2>GitHub Exercises — Reference</h2>
+      <p>These are in <code>javascript-exercises/foundations/</code>. Each folder has a README, a JS file to write your solution in, and a test file. Run <code>npm test exerciseName</code> to check your work.</p>
+      <ul class="exercise-list">
+        <li class="exercise-item"><span class="exercise-num">06</span><div><div class="exercise-name">repeatString</div><div class="exercise-concept">Accumulator pattern — loop num times, build a string with +=, handle negative num by returning 'ERROR'</div></div></li>
+        <li class="exercise-item"><span class="exercise-num">07</span><div><div class="exercise-name">reverseString</div><div class="exercise-concept">Backwards loop OR <code>.split('').reverse().join('')</code> — both work equally</div></div></li>
+        <li class="exercise-item"><span class="exercise-num">08</span><div><div class="exercise-name">removeFromArray</div><div class="exercise-concept"><code>...args</code> rest parameter + <code>.filter(item => !args.includes(item))</code> — keep items NOT in the removal list</div></div></li>
+        <li class="exercise-item"><span class="exercise-num">09</span><div><div class="exercise-name">sumAll</div><div class="exercise-concept">Handle reversed inputs with <code>[start, end] = [end, start]</code> — then loop and accumulate sum</div></div></li>
+        <li class="exercise-item"><span class="exercise-num">10</span><div><div class="exercise-name">leapYears</div><div class="exercise-concept">Check divisibility in correct order: 400 first (true), then 100 (false), then 4 (true), else false</div></div></li>
+        <li class="exercise-item"><span class="exercise-num">11</span><div><div class="exercise-name">tempConversion</div><div class="exercise-concept">Two functions: Celsius to Fahrenheit and back — use <code>Math.round(n * 10) / 10</code> for 1 decimal place</div></div></li>
+      </ul>
+
+      <h3>Running Tests</h3>
+      <pre><code><span class="c"># Run tests for a specific exercise only:</span>
+npm test 09_sumAll
+
+<span class="c"># Run all tests:</span>
+npm test
+
+<span class="c"># What the output means:</span>
+<span class="c"># ✓ green = test passed</span>
+<span class="c"># ✕ red   = test failed — read the expected vs received values</span>
+<span class="c"># skipped = tests not yet active (normal)</span></code></pre>
+    </div>
+
+    <hr class="divider">
+
+    <!-- MINDSET -->
+    <div class="doc-section" id="mindset">
+      <h2>Problem-Solving Mindset</h2>
+      <p>The Odin Project is not just teaching you JavaScript syntax — it's teaching you how to think. This is the most important skill in programming.</p>
+
+      <ol class="steps">
+        <li><strong>Read the problem twice</strong> — restate it in your own words before writing anything</li>
+        <li><strong>Write pseudocode</strong> — plain English steps as comments in your JS file</li>
+        <li><strong>Implement one tiny step at a time</strong> — don't write everything at once</li>
+        <li><strong>Test after every change</strong> — <code>console.log</code> after every new line to verify it works</li>
+        <li><strong>Fix one failing test at a time</strong> — don't try to pass all tests at once</li>
+        <li><strong>Clean up after it works</strong> — refactor only once the logic is correct</li>
+        <li><strong>Google the error message</strong> — copy the exact error, paste into Google, add "JavaScript"</li>
+      </ol>
+
+      <div class="callout tip">
+        <div class="callout-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+        <p><strong>Being stuck is not failure — it's the work.</strong> Every developer at every level gets stuck. The skill is knowing how to get unstuck: console.log, break the problem smaller, Google the error, read the documentation. The developers who succeed aren't smarter — they just sit with discomfort longer.</p>
+      </div>
+
+      <h3>When You're Stuck — In Order</h3>
+      <ol class="steps">
+        <li>Read the error message carefully — it usually tells you exactly what's wrong</li>
+        <li>Add console.logs to find where the value goes wrong</li>
+        <li>Google the exact error message</li>
+        <li>Read the MDN documentation for the method you're using</li>
+        <li>Rubber duck debugging — explain the code out loud as if teaching someone</li>
+        <li>Take a 15 minute break — your brain solves problems in the background</li>
+        <li>Ask for help — describe what you tried, what you expected, and what actually happened</li>
+      </ol>
+    </div>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  const t = document.querySelector('[data-theme-toggle]');
+  const r = document.documentElement;
+  let d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+  r.setAttribute('data-theme', d);
+  if(t) t.addEventListener('click', () => {
+    d = d === 'dark' ? 'light' : 'dark';
+    r.setAttribute('data-theme', d);
+  });
+})();
+
+const sections = document.querySelectorAll('.doc-section[id]');
+const links = document.querySelectorAll('.sidebar a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.sidebar a[href="#${entry.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+}, {threshold: 0.3, rootMargin: '-60px 0px -60% 0px'});
+sections.forEach(s => observer.observe(s));
+
+document.getElementById('dlBtn').addEventListener('click', () => {
+  const style = document.createElement('style');
+  style.id = 'print-style';
+  style.textContent = `
+    @media print {
+      .header { position: static !important; }
+      .sidebar { display: none !important; }
+      .layout { grid-template-columns: 1fr !important; }
+      .main { padding: 1rem !important; max-width: 100% !important; }
+      pre { white-space: pre-wrap !important; }
+      .callout { break-inside: avoid; }
+      .doc-section { break-inside: avoid; }
+    }
+  `;
+  document.head.appendChild(style);
+  window.print();
+  setTimeout(() => document.getElementById('print-style')?.remove(), 1000);
+});
+</script>
+</body>
+</html>
